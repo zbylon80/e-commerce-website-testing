@@ -1,4 +1,7 @@
 import { defineConfig } from 'cypress';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
   e2e: {
@@ -13,5 +16,9 @@ export default defineConfig({
       runMode: 1,
       openMode: 0,
     },
+  },
+  env: {
+    TEST_LOGIN: process.env.TEST_LOGIN,
+    TEST_PASSWORD: process.env.TEST_PASSWORD,
   },
 });
