@@ -8,6 +8,5 @@ describe('Sanity', () => {
     cy.login();
     cy.url().should('include', 'route=account/account');
     cy.get('h2').should('contain.text', 'My Account');
-    cy.visit('/index.php?route=account/logout');
   });
 });

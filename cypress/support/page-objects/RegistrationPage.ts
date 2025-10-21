@@ -75,7 +75,7 @@ export class RegistrationPage {
     const selector = this.selectors[field];
     cy.get(selector).then(($input) => {
       const inputElement = $input[0] as HTMLInputElement;
-      expect(inputElement.checkValidity(), `${field} should be invalid`).to.be.false;
+      expect(inputElement.checkValidity(), `${field} should be invalid`).to.equal(false);
       expect(inputElement.validationMessage).to.contain(expectedSubstring);
     });
   }
