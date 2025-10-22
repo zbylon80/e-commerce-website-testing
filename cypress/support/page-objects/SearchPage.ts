@@ -7,6 +7,7 @@ export class SearchPage {
     searchButton: '#button-search',
     productCards: '.product-thumb',
     productTitle: '.product-thumb .title',
+    productLink: 'h4.title a',
     priceFilterMin: '.module-mz_filter input[name="mz_fp[min]"]',
     priceFilterMax: '.module-mz_filter input[name="mz_fp[max]"]',
     paginationLinks: '.content-pagination .pagination .page-link',
@@ -106,8 +107,7 @@ export class SearchPage {
       .blur()
       .trigger('change', { force: true });
 
-    cy.get('body', { timeout: 10000 }).should('have.class', 'mz-filter-loading');
-    cy.get('body', { timeout: 10000 }).should('not.have.class', 'mz-filter-loading');
+    this.waitForFilterLoadingToComplete();
   }
 
   setPriceFilterBeyondResults(offset: number = 10, rangeWidth: number = 5) {
@@ -203,5 +203,24 @@ export class SearchPage {
     cy.contains(this.selectors.activePaginationLabel, new RegExp(`^${pageNumber}$`)).should(
       'be.visible',
     );
+  }
+
+  private waitForFilterLoadingToComplete() {
+    cy.get('body', { timeout: 10000 }).should('have.class', 'mz-filter-loading');
+    cy.get('body', { timeout: 10000 }).should('not.have.class', 'mz-filter-loading');
+  }
+
+  openResultAtIndex(index: number): Cypress.Chainable<string> {
+    return cy
+      .get(this.selectors.productCards)
+      .eq(index)
+      .find(this.selectors.productLink, { timeout: 10000 })
+      .then(($link) => {
+        const name = $link.text().trim();
+
+        return cy.wrap($link)
+          .click()
+          .then(() => name);
+      });
   }
 }

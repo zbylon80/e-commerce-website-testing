@@ -36,7 +36,7 @@ End-to-end test suite for the demo store at `https://ecommerce-playground.lambda
 
 ## Project structure
 
-- `cypress/e2e` - test scenarios, e.g. `registration.cy.ts`.
+- `cypress/e2e` - test scenarios, e.g. `02_registration.cy.ts`.
 - `cypress/support/page-objects` - page objects that wrap UI interactions.
 - `cypress/support/factories` - test data builders.
 - `cypress.config.ts` - Cypress configuration (baseUrl, viewport, retries, etc.).
@@ -44,18 +44,20 @@ End-to-end test suite for the demo store at `https://ecommerce-playground.lambda
 ## Test coverage
 
 - **Authentication shortcut** - `cy.login()` uses `.env` credentials to enter the app without UI login steps.
-- **Registration flow** - `registration.cy.ts` creates a new customer with Faker data and verifies the success banner and account dashboard access.
-- **Search and filters** - `search.cy.ts` checks keyword search results, validates automatic price filter bounds, forces empty results by pushing the price beyond available products, and asserts that every paginated page respects the chosen range.
-- **Sanity checks** - `sanity.cy.ts` runs lightweight storefront smoke tests helpful for quick regressions.
+- **Sanity checks** - `01_sanity.cy.ts` runs lightweight storefront smoke tests helpful for quick regressions.
+- **Registration flow** - `02_registration.cy.ts` creates a new customer with Faker data and verifies the success banner and account dashboard access.
+- **Search and filters** - `03_search.cy.ts` checks keyword search results, validates automatic price filter bounds, forces empty results by pushing the price beyond available products, and asserts that every paginated page respects the chosen range.
+- **Basket interactions** - `04_basket.cy.ts` adds a product from search results, verifies the success toast, checks the cart page entry, and cleans up by emptying the basket.
 
 ## Page object highlights
 
 - `SearchPage` centralizes selectors for the search module, contains helpers for synchronous price filtering (`setPriceFilter`, `setPriceFilterBeyondResults`), and traverses pagination while asserting price ranges.
 - `RegistrationPage` exposes high-level form actions (filling contact details, opting into newsletters, submitting the form), keeping specs free from raw selectors.
+- `BasketPage` wraps common cart actions such as emptying the basket via the inline remove buttons and asserting that specific products are present.
 
 ## Running focused tests
 
-- Headless single spec: `npx cypress run --spec cypress/e2e/search.cy.ts`
-- Interactive single spec: `npx cypress open --e2e --config specPattern=cypress/e2e/registration.cy.ts`
+- Headless single spec: `npx cypress run --spec cypress/e2e/03_search.cy.ts`
+- Interactive single spec: `npx cypress open --e2e --config specPattern=cypress/e2e/02_registration.cy.ts`
 
 Both commands assume `.env` is populated with valid credentials.
