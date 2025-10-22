@@ -29,14 +29,33 @@ End-to-end test suite for the demo store at `https://ecommerce-playground.lambda
 
 ## Key npm scripts
 
-- `npm run cy:open` – launches Cypress in interactive mode.
-- `npm run cy:run` – runs the full suite headlessly (Chrome by default).
-- `npm run lint` – lints the codebase.
-- `npm run format` – formats the code with Prettier.
+- `npm run cy:open` - launches Cypress in interactive mode.
+- `npm run cy:run` - runs the full suite headlessly (Chrome by default).
+- `npm run lint` - lints the codebase.
+- `npm run format` - formats the code with Prettier.
 
 ## Project structure
 
-- `cypress/e2e` – test scenarios, e.g. `registration.cy.ts`.
-- `cypress/support/page-objects` – page objects that wrap UI interactions.
-- `cypress/support/factories` – test data builders.
-- `cypress.config.ts` – Cypress configuration (baseUrl, viewport, retries, etc.).
+- `cypress/e2e` - test scenarios, e.g. `registration.cy.ts`.
+- `cypress/support/page-objects` - page objects that wrap UI interactions.
+- `cypress/support/factories` - test data builders.
+- `cypress.config.ts` - Cypress configuration (baseUrl, viewport, retries, etc.).
+
+## Test coverage
+
+- **Authentication shortcut** - `cy.login()` uses `.env` credentials to enter the app without UI login steps.
+- **Registration flow** - `registration.cy.ts` creates a new customer with Faker data and verifies the success banner and account dashboard access.
+- **Search and filters** - `search.cy.ts` checks keyword search results, validates automatic price filter bounds, forces empty results by pushing the price beyond available products, and asserts that every paginated page respects the chosen range.
+- **Sanity checks** - `sanity.cy.ts` runs lightweight storefront smoke tests helpful for quick regressions.
+
+## Page object highlights
+
+- `SearchPage` centralizes selectors for the search module, contains helpers for synchronous price filtering (`setPriceFilter`, `setPriceFilterBeyondResults`), and traverses pagination while asserting price ranges.
+- `RegistrationPage` exposes high-level form actions (filling contact details, opting into newsletters, submitting the form), keeping specs free from raw selectors.
+
+## Running focused tests
+
+- Headless single spec: `npx cypress run --spec cypress/e2e/search.cy.ts`
+- Interactive single spec: `npx cypress open --e2e --config specPattern=cypress/e2e/registration.cy.ts`
+
+Both commands assume `.env` is populated with valid credentials.
