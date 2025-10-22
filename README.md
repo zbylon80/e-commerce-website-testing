@@ -68,3 +68,11 @@ Both commands assume `.env` is populated with valid credentials.
 - The latest report is written to `cypress/reports/index.html`; screenshots for failed assertions are embedded directly in the report.
 - Because `overwrite` is enabled, each new run replaces the previous HTML to keep the folder tidy; archive the file manually if you need historical runs.
 - Open the report locally with your browser of choice, for example: `start cypress/reports/index.html` on Windows or `open cypress/reports/index.html` on macOS.
+
+## TODO - Future improvements
+
+- **CI/CD setup** - Add GitHub Actions workflow for automated test execution
+- **Mobile/responsive testing** - Add tests for different viewport sizes and mobile devices
+- **Accessibility testing** - Add WCAG compliance tests and screen reader support
+- **API testing** - Add API layer tests to complement E2E testing
+- **Performance metrics** - Add test execution time tracking and success rate monitoring
